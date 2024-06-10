@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông báo đặt hàng thành công</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Đặt hàng thành công!</h4>
+        <p>Cảm ơn bạn đã đặt hàng. Đơn hàng của bạn đã được xác nhận.</p>
+        <hr>
+        <p class="mb-0">Mã đơn hàng của bạn là: <strong>#DH123456</strong></p>
+        <p class="mb-0">Thông tin đơn hàng:</p>
+        <ul>
+            <li>Sản phẩm: Áo thun xanh size M</li>
+            <li>Giá: $20</li>
+            <li>Số lượng: 2</li>
+            <li>Ngày đặt hàng: 2024-06-11 09:30:00</li>
+            <!-- Thêm thông tin đơn hàng khác tùy theo yêu cầu của bạn -->
+        </ul>
+        <a href="/" class="btn btn-primary">Quay lại trang chính</a>
+    </div>
+</div>
+
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<!-- Bootstrap JS and dependencies -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $.ajax({
+            url: 'https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district',
+            type: 'GET',
+            dataType: 'json', // Chỉ định kiểu dữ liệu trả về là JSON
+            headers: {
+                'token': '94cdce68-8128-11ee-b394-8ac29577e80e',
+                'Content-Type': 'application/json'
+            },
+            data: {
+                province_id: 201
+            },
+            success: function(response) {
+                console.log(response);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+                alert('Có lỗi xảy ra khi tải dữ liệu. Vui lòng thử lại sau.');
+            }
+        });
+    });
+</script>
+</body>
+</html>
