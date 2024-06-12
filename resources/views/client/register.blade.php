@@ -49,52 +49,49 @@
                     <div class="col-lg-12">
                         <div class="basic-login mb-50">
                             <h5>Đăng Ký Tài Khoản</h5>
-                            <form action="{{ route('client.register') }}" method="post">
-                            @csrf <!-- Đây là token CSRF cho Laravel -->
-                            <label for="name">Nhập học và tên <span>*</span></label>
-                            <input id="name" type="text" name="full_name" placeholder="Xin vui lòng nhập email">
-                            <label for="name">Nhập Email <span>*</span></label>
-                            <input id="name" type="text" name="email" placeholder="Xin vui lòng nhập email">
-                            <!-- Thuộc tính name được thêm vào -->
-                                                        
-                            <label for="pass">Nhập Số Điện Thoại <span>*</span></label>
-                            <input id="phone" type="text" name="phone" placeholder="Xin vui lòng nhập số điện thoại...">
-                            <!-- Thuộc tính name được thêm vào -->
-                            <label for="pass">Nhập Password <span>*</span></label>
-                            <input id="pass" type="password" name="password" placeholder="Xin vui lòng nhập password...">
-                            <!-- Thuộc tính name được thêm vào -->
-                        
-                            <div class="form-group">
-                <label for="province">Chọn Thành Phố <span>*</span></label>
-                <!-- <select class="form-control  custom-select" id="province1" name="provincestore "style="display: none;" required>
-                </select> -->
-                <select style="display: none;" id="province1"class="form-control " name="provincestore">
-                </select>
-
-            </div>
-            <div class="form-group">
-                <!-- <label for="district">Chọn Quận Huyện <span>*</span></label> -->
-                <select class="form-control" id="district" name="districtstore" style="display: none;">
-                    <!-- <option>Chọn Quận Huyện</option> -->
-                </select>
-            </div>
-            <div class="form-group">
-                <!-- <label for="commune">Chọn Phường Xã <span>*</span></label> -->
-                <select class="form-control " id="commune" name="communestore" style="display: none;">
-                    <!-- <option>Chọn Phường Xã</option> -->
-                </select>
-            </div>
-                            <div class="login-action mb-10 fix">
-                               
-                            <span class="forgot-login f-left">
-                                    <a href="/login">Đăng Nhập</a>
-                                </span>
-                                <span class="forgot-login f-right">
-                                    <a href="/password-back">Quên Mật Khẩu</a>
-                                </span>
-                            </div>
-                            <input type="submit" value="Đăng Ký" class="tp-in-btn w-100">
-                        </form>
+                            <form id="registrationForm">
+    <label for="full_name">Nhập học và tên <span>*</span></label>
+    <input id="full_name" type="text" name="full_name" placeholder="Xin vui lòng nhập học và tên">
+    
+    <label for="email">Nhập Email <span>*</span></label>
+    <input id="email" type="text" name="email" placeholder="Xin vui lòng nhập email">
+    
+    <label for="phone">Nhập Số Điện Thoại <span>*</span></label>
+    <input id="phone" type="text" name="phone" placeholder="Xin vui lòng nhập số điện thoại...">
+    
+    <label for="password">Nhập Password <span>*</span></label>
+    <input id="password" type="password" name="password" placeholder="Xin vui lòng nhập password...">
+    
+    <div class="form-group">
+        <label for="province1">Chọn Thành Phố <span>*</span></label>
+        <select id="province1" class="form-control" name="provincestore">
+            
+            <!-- Thêm các option khác -->
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="district">Chọn Quận Huyện <span>*</span></label>
+        <select class="form-control" id="district" name="districtstore">
+            <!-- Các option sẽ được thêm vào đây -->
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="commune">Chọn Phường Xã <span>*</span></label>
+        <select class="form-control" id="commune" name="communestore">
+            <!-- Các option sẽ được thêm vào đây -->
+        </select>
+    </div>
+    
+    <div class="login-action mb-10 fix">
+        <span class="forgot-login f-left">
+            <a href="/login">Đăng Nhập</a>
+        </span>
+        <span class="forgot-login f-right">
+            <a href="/password-back">Quên Mật Khẩu</a>
+        </span>
+    </div>
+    <input type="button" value="Đăng Ký" class="tp-in-btn w-100" onclick="submitForm()">
+</form>
 
                         </div>
                     </div>
@@ -156,6 +153,65 @@
 
     </main>
     <script>
+ function submitForm() {
+    // Lấy giá trị của các trường input
+    var fullName = document.getElementById('full_name').value;
+    var email = document.getElementById('email').value;
+    var phone = document.getElementById('phone').value;
+    var password = document.getElementById('password').value;
+    
+    var provinceSelect = document.getElementById('province1');
+    var provinceText = provinceSelect.options[provinceSelect.selectedIndex].text;
+    
+    var districtSelect = document.getElementById('district');
+    var districtText = districtSelect.options[districtSelect.selectedIndex].text;
+    
+    var communeSelect = document.getElementById('commune');
+    var communeText = communeSelect.options[communeSelect.selectedIndex].text;
+    
+    // Hiển thị giá trị trong console
+    console.log('Full Name: ' + fullName);
+    console.log('Email: ' + email);
+    console.log('Phone: ' + phone);
+    console.log('Password: ' + password);
+    console.log('Province: ' + provinceText);
+    console.log('District: ' + districtText);
+    console.log('Commune: ' + communeText);
+    
+    // Tạo đối tượng FormData và thêm dữ liệu
+    var formData = new FormData();
+    formData.append('full_name', fullName);
+    formData.append('email', email);
+    formData.append('phone', phone);
+    formData.append('password', password);
+    formData.append('province', provinceText);
+    formData.append('district', districtText);
+    formData.append('commune', communeText);
+    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    console.log(csrfToken);
+    formData.append('_token', csrfToken);
+
+    
+    // Gửi AJAX request
+    $.ajax({
+        type: 'POST',
+        url: '{{ route('client.register') }}', // Cập nhật URL với route thực tế của bạn
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            // Xử lý phản hồi JSON nếu cần
+            alert(response.message); // Hiển thị thông báo từ phản hồi JSON
+        },
+        error: function(xhr, status, error) {
+            // Xử lý lỗi nếu có
+            var errorMessage = xhr.responseJSON.message; // Lấy thông báo lỗi từ phản hồi JSON
+            alert(errorMessage); // Hiển thị thông báo lỗi
+        }
+    });
+}
+
+
     $(document).ready(function() {
         $('select').niceSelect();
 
@@ -187,39 +243,39 @@
             });
         });
         $.ajax({
-            url: "https://toinh-api-tinh-thanh.onrender.com/province",
+            url: "http://127.0.0.1:8000/api/province",
             context: document.body
         }).done(function(data) {
-            console.log(data);
+            console.log(data.data);
             $('#province1').empty()
-            $.each(data,function(index,item){
-                $('#province1').append('<option value="' + item.idProvince + '">' + item.name + '</option>');
+            $.each(data.data,function(index,item){
+                $('#province1').append('<option value="' + item.id + '">' + item._name + '</option>');
             })
             // Thực hiện xử lý dữ liệu ở đây nếu cần
         });
         $('#province1').on('change',function(){
             var selectprovinceId = $(this).val();
             $.ajax({
-                url: "https://toinh-api-tinh-thanh.onrender.com/district?idProvince="+selectprovinceId,
+                url: "http://127.0.0.1:8000/api/district/"+selectprovinceId,
                 context:document.body
             }).done(function(data){
-                console.log(data)
+                console.log(data.data)
                 $('#district').empty()
-                $.each(data,function(index,item){
-                    $('#district').append('<option value="' + item.idDistrict + '">' + item.name + '</option>');
+                $.each(data.data,function(index,item){
+                    $('#district').append('<option value="' + item.id + '">' + item._name + '</option>');
                 })
             })
         });
         $('#district').on('change',function(){
             var selectdistrict = $(this).val();
             $.ajax({
-                url : "https://api-tinh-thanh-git-main-toiyours-projects.vercel.app/commune?idDistrict="+selectdistrict,
+                url : "http://127.0.0.1:8000/api/ward/"+selectdistrict,
 
             }).done(function(data){
                 console.log(data)
                 $('#commune').empty()
-                $.each(data,function(index,item){
-                    $('#commune').append('<option value="' + item.idCommune + '">' + item.name + '</option>');
+                $.each(data.data,function(index,item){
+                    $('#commune').append('<option value="' + item.id + '">' + item._name + '</option>');
 
                 })
             })

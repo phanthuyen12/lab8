@@ -5,6 +5,8 @@
       <meta name="description" content="">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <!-- Place favicon.ico in the root directory -->
+      <meta name="csrf-token" content="{{ csrf_token() }}">
+
       <link rel="shortcut icon" type="image/x-icon" href="{{ asset('client/img/favicon.png') }}">
 <!-- CSS here -->
 <link rel="stylesheet" href="{{ asset('client/css/preloader.css') }}">

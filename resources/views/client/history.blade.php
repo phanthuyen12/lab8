@@ -44,26 +44,23 @@
                                        <tr>
                                           <th class="product-thumbnail">Thời Gian</th>
                                           <th class="cart-product-name">Trạng Thái</th>
+                                          <th class="cart-product-name">Tình Trạng</th>
+
                                           <th class="product-price">email</th>
                                           <th>phone</th>
                                           <th>địa điểm</th>
-                                          <th>tên sản phẩm</th>
-                                          <th>số lượng</th>
-                                          <th>Tiền</th>
+                                          <th>Tiền giảm giá</th>
+                                          <th>chi tiết giỏ hàng</th>
+                    
+                                          <th>chi tiết giỏ hàng</th>
+                    
                                           
                                        </tr>
                                     </thead>
                                     <tbody id ="history_content">
                          
 
-                                    <tr>
-                                        <td>thuyen</td>
-                                        <td>thuyen</td>
-     
-                                        <td>
-                                           
-                                    </td>
-                                    </tr>
+                                   
                                      
                                       
                                     </tbody>

@@ -12,20 +12,13 @@ class Orderdetails extends Model
     protected $primaryKey= 'order_detail_id';
     protected $fillable = [
        'order_id',
-        'full_name',
-        'email',
-        'phone',
-        'province',
-        'district',
-        'commune',
-        'shipping' ,
         'product_name',
         'product_price',
         'product_quantity',
 
     ];
-    public function Order()
+    public function order()
     {
-        return $this->hasMany(Order::class, 'order_id');
+        return $this->belongsTo(Order::class, 'order_id', 'order_id');
     }
 }

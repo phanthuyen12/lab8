@@ -1,65 +1,150 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thông báo đặt hàng thành công</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .container {
-            margin-top: 50px;
-        }
-    </style>
-</head>
-<body>
+@extends('admin/layout')
+@section('content')
+<div class="main-content">
+    <header id="page-topbar">
+        <div class="navbar-header">
+            <div class="d-flex align-items-center">
+                <button type="button" class="btn btn-sm mr-2 d-lg-none header-item" id="vertical-menu-btn">
+                    <i class="fa fa-fw fa-bars"></i>
+                </button>
 
-<div class="container">
-    <div class="alert alert-success" role="alert">
-        <h4 class="alert-heading">Đặt hàng thành công!</h4>
-        <p>Cảm ơn bạn đã đặt hàng. Đơn hàng của bạn đã được xác nhận.</p>
-        <hr>
-        <p class="mb-0">Mã đơn hàng của bạn là: <strong>#DH123456</strong></p>
-        <p class="mb-0">Thông tin đơn hàng:</p>
-        <ul>
-            <li>Sản phẩm: Áo thun xanh size M</li>
-            <li>Giá: $20</li>
-            <li>Số lượng: 2</li>
-            <li>Ngày đặt hàng: 2024-06-11 09:30:00</li>
-            <!-- Thêm thông tin đơn hàng khác tùy theo yêu cầu của bạn -->
-        </ul>
-        <a href="/" class="btn btn-primary">Quay lại trang chính</a>
+                <div class="header-breadcumb">
+                    <h6 class="header-pretitle d-none d-md-block">Pages <i class="dripicons-arrow-thin-right"></i> Dashboard</h6>
+                    <h2 class="header-title">Overview</h2>
+                </div>
+            </div>
+        </div>
+    </header>
+    <form id="update_order">
+    @csrf
+    <div class="page-content">
+    <div class="container-fluid">
+            <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Basic Data Table</h4>
+                                    <p class="card-subtitle mb-4">
+                                        DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction
+                                        function:
+                                        <code>$().DataTable();</code>.
+                                    </p>
+
+                                    <table id="basic-datatable" class="table dt-responsive nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Position</th>
+                                                <th>Office</th>
+                                                <th>Age</th>
+                                                <th>Start date</th>
+                                                <th>Salary</th>
+                                            </tr>
+                                        </thead>
+                                    
+                                    
+                                        <tbody>
+                                        
+                                            <tr>
+                                                <td>Serge Baldwin</td>
+                                                <td>Data Coordinator</td>
+                                                <td>Singapore</td>
+                                                <td>64</td>
+                                                <td>2012/04/09</td>
+                                                <td>$138,575</td>
+                                            </tr>
+                                          
+                                            <tr>
+                                                <td>Cara Stevens</td>
+                                                <td>Sales Assistant</td>
+                                                <td>$145,600</td>
+                                                <td>New York</td>
+                                                <td>3990</td>
+                                                <td>c.stevens@datatables.net</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Hermione Butler</td>
+                                                <td>Regional Director</td>
+                                                <td>$356,250</td>
+                                                <td>London</td>
+                                                <td>1016</td>
+                                                <td>h.butler@datatables.net</td>
+                                            </tr>
+                                        
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Position</th>
+                                                <th>Salary</th>
+                                                <th>Office</th>
+                                                <th>Extn.</th>
+                                                <th>E-mail</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+
+                                </div> <!-- end card body-->
+                            </div> <!-- end card -->
+                        </div><!-- end col-->
+                    </div>
+                    <!-- end row-->
+            </div><!-- end row-->
+        </div>
     </div>
-</div>
+    </form>
+    <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-xl">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title h4" id="myExtraLargeModalLabel">Chi Tiết Đơn Hàng</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                <div class="table-responsive">
+                                                        
+                                                <table id="basic-datatable" class="table dt-responsive nowrap">
+                                                <thead>
+                                                        <tr>
+                                                        <th scope="col">Họ Tên Khách </th>
+                                                        <th scope="col">Email</th>
+                                                        <th scope="col">Phone</th>
+                                                        <th scope="col">Địa Điểm</th>
+                                                        <th scope="col">Tên Sản phẩm</th>
+                                                        <th scope="col">Số lượng Sản phẩm</th>
+                                                        <th scope="col">Loại Thanh Toán</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                        <th scope="row">1</th>
+                                                        <td>Mark</td>
+                                                        <td>Otto</td>
+                                                        <td>@mdo</td>
 
-<!-- jQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<!-- Bootstrap JS and dependencies -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+                                                        <td>@mdo</td>
+                                                    </tr>
+                                                        
+                                                    </tbody>
 
-<script>
-    $(document).ready(function() {
-        $.ajax({
-            url: 'https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district',
-            type: 'GET',
-            dataType: 'json', // Chỉ định kiểu dữ liệu trả về là JSON
-            headers: {
-                'token': '94cdce68-8128-11ee-b394-8ac29577e80e',
-                'Content-Type': 'application/json'
-            },
-            data: {
-                province_id: 201
-            },
-            success: function(response) {
-                console.log(response);
-            },
-            error: function(xhr, status, error) {
-                console.error('Error:', error);
-                alert('Có lỗi xảy ra khi tải dữ liệu. Vui lòng thử lại sau.');
-            }
-        });
-    });
-</script>
-</body>
-</html>
+                                                    </table>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                                    <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <script>
+                                        $(document).ready(function() {
+    $('#basic-datatable').DataTable();
+});
+
+                                    </script>
+                                    <script src="{{ asset('admin/thaotac/order.js') }}"></script>
+                                   
+@endsection

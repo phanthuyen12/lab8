@@ -99,35 +99,43 @@ class UserController extends Controller
     public function create_user(Request $request){
         $validator = Validator::make($request->all(), [
             'full_name'=>'required|string|max:255',
-            'email' => 'required|string|email|unique:users', // Ensures unique email
+            'email' => 'required|string|email|unique:users', // Ensure unique email
             'phone' => 'required|string', // Adjust validation rules for phone number as needed
-            'provincestore' => 'required|string', // Adjust validation rules as needed
-            'districtstore' => 'required|string', // Adjust validation rules as needed
-            'communestore' => 'required|string', // Adjust validation rules as needed
+            'province' => 'required|string', // Adjust validation rules as needed
+            'district' => 'required|string', // Adjust validation rules as needed
+            'commune' => 'required|string', // Adjust validation rules as needed
             'password' => 'required|string|min:8', // Enforces password confirmation
         ]);
+    
         if($validator->fails()){
-            return response()->json($validator->errors(),422);
+            return response()->json($validator->errors(), 422);
         }
-        $randomToken = Str::random(60); // Tạo một token ngẫu nhiên với độ dài 60 ký tự
-
+    
+        $randomToken = Str::random(60); // Generate a random token with length 60
+        // Ensure token is unique
+        while(User::where('token', $randomToken)->exists()){
+            $randomToken = Str::random(60);
+        }
+    
         $user = User::create([
             'full_name'=> $request->input('full_name'),
             'email' => $request->email,
             'phone' => $request->phone,
-            'provincestore' => $request->provincestore,
-            'districtstore' => $request->districtstore,
-            'communestore' => $request->communestore,
+            'provincestore' => $request->province,
+            'districtstore' => $request->district,
+            'communestore' => $request->commune,
             'role' => '1',
             'password' => Hash::make($request->password),
             'token' => $randomToken
         ]);
-        return response()->json(
-            ['message'=>"thành công"
-                ,'users'=>$user]);
-        
-
+    
+        if(!$user){
+            return response()->json(['message' => 'Không thể tạo người dùng'], 500);
+        }
+    
+        return response()->json(['message' => 'Thành công', 'users' => $user]);
     }
+    
     public function password_black(Request $request){
         $mail = $request->input('email');
         $user = User::where('email', $mail)->first();
@@ -165,7 +173,7 @@ class UserController extends Controller
     public function get_login(Request $request){
         return view('admin/login');
 
-    }public function login(Request $request)
+    }public function login_admin(Request $request)
     {
         $credentials = [
             'email' => $request->email,
@@ -265,6 +273,7 @@ class UserController extends Controller
     }
     
         public function user_login(Request $request){
+        
         $credentials = [
             'email' => $request->email,
             'password' => $request->password
@@ -312,5 +321,22 @@ class UserController extends Controller
         ], 200); // Use HTTP status code 200 for success
     
         
+    }
+    function get_user_token(Request $request){
+        try{
+            $token = $request->input('token'); // Lấy token từ URL
+        
+            $user = User::where('token', $token)
+                        ->first();
+            return response()->json([
+                'message' => $user,
+            ], 200); // Use HTTP status code 200 for success
+        }catch(\Exception $e){
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], 409); // Use HTTP status code 200 for success
+
+        }
+     
     }
 }

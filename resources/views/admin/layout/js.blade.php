@@ -34,3 +34,4 @@
 <script src="{{ asset('admin/plugins/datatables/dataTables.select.min.js') }}"></script>
 <script src="{{ asset('admin/plugins/datatables/pdfmake.min.js') }}"></script>
 <script src="{{ asset('admin/plugins/datatables/vfs_fonts.js') }}"></script>
+

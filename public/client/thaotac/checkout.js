@@ -29,7 +29,7 @@ function displaycart() {
                     ${product.name} <strong class="product-quantity"> × ${product.quantity}</strong>
                 </td>
                 <td class="product-total">
-                    <span class="amount">${parseFloat(productTotal).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
+                    <span class="amount">${parseFloat(productTotal).toLocaleString('vi-VN', { style: 'currency', currency: 'VND'})}</span>
                 </td>
             </tr>
             `;
@@ -37,12 +37,40 @@ function displaycart() {
         });
 
         // Hiển thị tổng giá trị của giỏ hàng
-        document.getElementById('totls_product').innerText = parseFloat(totalCartPrice).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+        document.getElementById('totls_product').innerText = parseFloat(totalCartPrice).toLocaleString('vi-VN', { style: 'currency', currency: 'VND'});
+        document.getElementById('subtotal_product_gg').value = parseFloat(totalCartPrice);
+        document.getElementById('totals_producttg').value = parseFloat(totalCartPrice);
+
     } else {
         // Hiển thị thông báo nếu giỏ hàng trống
         document.getElementById('product_item').innerHTML = '<p>Giỏ hàng trống</p>';
     }
 }
 window.onload = function() {
-    displaycart();
-};
+    var cart = sessionStorage.getItem('cart');
+    if (cart){
+        displaycart();
+
+    }else{
+        Swal.fire({
+            icon: "error",
+            title: "Giỏ hàng đang không có sản phẩm xin vui lòng mua hàng",
+            width: 600,
+            padding: "3em",
+            color: "#716add",
+            backdrop: `
+                rgba(0,0,123,0.4)
+                url("/images/nyan-cat.gif")
+                left top
+                no-repeat
+            `,
+            showConfirmButton: true, // Hiển thị nút xác nhận
+            confirmButtonText: 'OK' // Thay đổi văn bản của nút xác nhận
+        }).then((result) => {
+            // Nếu người dùng nhấn nút "OK"
+            if (result.isConfirmed) {
+                // Chuyển trang lên /shop
+                window.location.href = "/shop";
+            }
+        });
+         }};

@@ -29,13 +29,15 @@
                                 <code>$().DataTable();</code>.
                             </p>
                             <div class="table-responsive">
-                            <table id="basic-datatable" class="table dt-responsive nowrap">
-                                <thead>
+                            <table id="basic-datatable" class="table nowrap">
+                            <thead>
                                     <tr>
                                         <th>ID đơn hàng</th>
                                         <th>Người dùng</th>
                                         <th>Thời Gian</th>
                                         <th>Trạng Thái</th>
+                                        <th>Tổng tiền</th>
+                                        <th>Tổng Tiền giảm giá</th>
                                         <th>Chi Tiết Đơn Hàng</th>
 
                                         <th>Thao tác</th>
@@ -54,8 +56,13 @@
         {{ $order->user_id }}
     @endif
 </td>
+
+
                                     <td>{{ $order->order_date}}</td>
                                     <td>{{ $order->status}}</td>
+                                    <td>{{ $order->totalamount}}</td>
+
+<td>{{ $order->totalamountsale}}</td>
                                     <td>
                                     <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target=".bd-example-modal-xl" onclick="order_details('{{ $order->order_id}}')">Chi Tiết Đơn Hàng</button>
 
@@ -97,6 +104,8 @@
                                                         <th scope="col">Phone</th>
                                                         <th scope="col">Địa Điểm</th>
                                                         <th scope="col">Tên Sản phẩm</th>
+                                                        <th scope="col">Số lượng Sản phẩm</th>
+                                                        <th scope="col">Loại Thanh Toán</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -121,5 +130,13 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <script>
+                                        $(document).ready(function() {
+    $('#basic-datatable').DataTable();
+});
+
+                                    </script>
+                                    
                                     <script src="{{ asset('admin/thaotac/order.js') }}"></script>
+                                   
 @endsection

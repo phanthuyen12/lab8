@@ -31,6 +31,12 @@ class User extends Authenticatable
         'token',
         
     ];
+    public function coupons()
+    {
+        return $this->belongsToMany(couponuser::class, 'coupon_user', 'user_id', 'coupon_id')
+                    ->withPivot('used_at')
+                    ->withTimestamps();
+    }
 
     /**
      * Các thuộc tính nên được ẩn khi trả về trong mảng.

@@ -31,6 +31,9 @@ Route::prefix('/')->group(function(){
     Route::post('/user', [ApiController::class, 'information_user'])->name('api.information_user');
     Route::post('/buy-products',[ApiController::class,'buy_products']);
     Route::get('/order/{madonhang}',[ApiController::class,'get_order']);
-
+    Route::get('/province',[ApiController::class,'get_province']);
+    Route::get('/district/{id}',[ApiController::class,'get_district']);
+    Route::get('/ward/{id}',[ApiController::class,'get_Ward']);
+    Route::get('/street/{id}',[ApiController::class,'get_street']);
         
 });

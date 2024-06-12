@@ -16,6 +16,21 @@ class CategoryController extends Controller
     
         return response()->json($categories);
     }
+    public function update_trangthai(Request $request){
+        {
+            $categoryId = $request->input('id');
+            $category = Category::find($categoryId);
+    
+            if ($category) {
+                $category->trangthai = $category->trangthai == 0 ? 1 : 0;
+                $category->save();
+    
+                return response()->json(['status' => $category->trangthai, 'message' => 'Cập nhật trạng thái thành công']);
+            } else {
+                return response()->json(['message' => 'Không tìm thấy danh mục'], 404);
+            }
+        }
+    }
     
     
     public function get_category_id($id){

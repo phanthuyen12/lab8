@@ -14,11 +14,22 @@ class Order extends Model
         'user_id',
         'status',
         'madonhang',
+        'full_name',
+        'email',
+        'phone',
+        'province',
+        'district',
+        'commune',
+        'totalamount',
+        'totalamountsale',
+        'shipping',
+        'code_pay',
 
     ];
-    public function Orderdetails()
+
+    public function orderDetails()
     {
-        return $this->hasMany(Orderdetails::class, 'order_detail_id');
+        return $this->hasMany(Orderdetails::class, 'order_id', 'order_id');
     }
 
 }

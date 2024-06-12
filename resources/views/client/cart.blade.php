@@ -33,7 +33,9 @@
         <section class="cart-area pt-120 pb-120">
             <div class="container">
                <div class="row">
-                  <div class="col-12">
+
+
+               <div class="col-12">
                         <form action="#">
                            <div class="table-content table-responsive">
                               <table class="table">
@@ -59,14 +61,13 @@
                            <div class="row">
                               <div class="col-12">
                                     <div class="coupon-all">
-                                       <div class="coupon">
-                                          <input id="coupon_code" class="input-text" name="coupon_code" value="" placeholder="Coupon code" type="text">
-                                          <button class="tp-btn-h1" name="apply_coupon" type="submit">Apply
-                                                coupon</button>
-                                       </div>
+                                  
+
+
                                        <div class="coupon2">
                                           <button class="tp-btn-h1" name="update_cart" id = "update_cart" type="submit">Cập Nhật Giỏ Hàng</button>
                                        </div>
+                                     
                                     </div>
                               </div>
                            </div>
@@ -77,6 +78,7 @@
                                        <ul class="mb-20">
                                           <li>Tổng tiền <span id ="subtotal_product">0</span></li>
                                        </ul>
+                                    
                                        <a class="tp-btn-h1" href="/checkout">Thanh Toán</a>
                                     </div>
                               </div>

@@ -35,7 +35,7 @@
 
                                     </p>
 
-                                    <table id="basic-datatable" class="table dt-responsive nowrap">
+                                    <table id="basic-datatable" class="table nowrap">
                                         <thead>
                                             <tr>
                                                 <th>Name</th>
@@ -50,108 +50,109 @@
                                     
                                     
                                         <tbody>
-                                            @foreach ($user as $u)
-                                            <tr>
-                                                <td>{{ $u->full_name}}</td>
-                                                <td>{{$u->email}}</td>
-                                                <td>{{ $u->trangthai == 1 ? "Khóa tài khoản" : "Tài khoản bình thường" }}</td>
-                                                <td>{{$u->phone}}</td>
-                                                <td><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Xem Chi tiết</button></td>
-                                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Địa Chỉ</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                <div class="form-group">
-                                        <label>Thành Phố</label>
-                                        <input type="text" class="form-control" maxlength="25" name="defaultconfig" id="defaultconfig" value ="{{ $u->provincestore}}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Quận Huyện</label>
-                                        <input type="text" class="form-control" maxlength="25" name="defaultconfig" id="defaultconfig" value ="{{ $u->communestore}}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Xã , Thị Trấn </label>
-                                        <input type="text" class="form-control" maxlength="25" name="defaultconfig" id="defaultconfig" value ="{{ $u->districtstore}}">
-                                    </div>                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                                <td>{{$u->created_at}}</td>
-                                                <td>
-                                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#capnhatuser">Cập Nhật</button>
-                                                <div class="modal fade" id="capnhatuser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                    <form action="{{route('admin.update-user')}}" method="post">
-                                                    <input type="hidden" name="id"value="{{ $u->user_id }}">
+                                        @foreach ($user as $u)
+<tr>
+    <td>{{ $u->full_name }}</td>
+    <td>{{ $u->email }}</td>
+    <td>{{ $u->trangthai == 1 ? "Khóa tài khoản" : "Tài khoản bình thường" }}</td>
+    <td>{{ $u->phone }}</td>
+    <td>
+        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#viewModal{{ $u->user_id }}">Xem Chi tiết</button>
+    </td>
 
-                                                    @csrf
-                                                <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Cập Nhật User</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                <div class="form-group">
-                                        <label>Fullname </label>
-                                        <input type="text" class="form-control" maxlength="25" name="Username" name="fullname" id="Username" value ="{{ $u->full_name}}">
-                                    </div>   
-                                                <div class="form-group">
-                                        <label>Email</label>
-                                        <input type="text" class="form-control" maxlength="25" name="Email" name = "Email" id="Email" value ="{{ $u->email}}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Phone</label>
-                                        <input type="text" class="form-control" maxlength="25" name="Phone" name="Phone" id="Phone" value ="{{ $u->phone}}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Thành Phố</label>
-                                        <input type="text" class="form-control" maxlength="25" name="provincestore" name= "provincestore" id="defaultconfig" value ="{{ $u->provincestore}}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Quận Huyện</label>
-                                        <input type="text" class="form-control" maxlength="25" name="communestore" name ="communestore" id="defaultconfig" value ="{{ $u->communestore}}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Xã , Thị Trấn </label>
-                                        <input type="text" class="form-control" maxlength="25" name="districtstore" name = "districtstore" id="defaultconfig" value ="{{ $u->districtstore}}">
-                                    </div> 
-                                    <!-- <div class="form-group">
-                                        <label>Passworld </label>
-                                        <input type="text" class="form-control" maxlength="25" name="Password" name = "password" id="password" value ="{{ $u->password}}">
-                                    </div>  -->
-                                        </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <input type="submit" class="btn btn-primary" value="Cấp Nhật">
+    <!-- Modal for viewing details -->
+    <div class="modal fade" id="viewModal{{ $u->user_id }}" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel{{ $u->user_id }}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewModalLabel{{ $u->user_id }}">Địa Chỉ</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Thành Phố</label>
+                        <input type="text" class="form-control" maxlength="25" name="defaultconfig" id="defaultconfig" value="{{ $u->provincestore }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Quận Huyện</label>
+                        <input type="text" class="form-control" maxlength="25" name="defaultconfig" id="defaultconfig" value="{{ $u->communestore }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Xã , Thị Trấn</label>
+                        <input type="text" class="form-control" maxlength="25" name="defaultconfig" id="defaultconfig" value="{{ $u->districtstore }}">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                                                </div>
-                                            </div>
-                                        </div>
-                                                </form>
-                                       
-                                    </div>
-                                </div><form action="{{ route('admin.lock-user') }}" method="post">
-    @csrf <!-- Include CSRF token -->
+    <td>{{ $u->created_at }}</td>
+    <td>
+        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#updateModal{{ $u->user_id }}">Cập Nhật</button>
 
-    <input type="hidden" name="id" value="{{ $u->user_id }}">
-    <button type="submit" class="btn btn-danger btn-sm">Lock</button>
-</form>
+        <!-- Modal for updating user -->
+        <div class="modal fade" id="updateModal{{ $u->user_id }}" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel{{ $u->user_id }}" aria-hidden="true">
+            <form action="{{ route('admin.update-user') }}" method="post">
+                @csrf
+                <input type="hidden" name="id" value="{{ $u->user_id }}">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="updateModalLabel{{ $u->user_id }}">Cập Nhật User</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Fullname</label>
+                                <input type="text" class="form-control" maxlength="25" name="Username" id="Username" value="{{ $u->full_name }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="text" class="form-control" maxlength="25" name="Email" id="Email" value="{{ $u->email }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input type="text" class="form-control" maxlength="25" name="Phone" id="Phone" value="{{ $u->phone }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Thành Phố</label>
+                                <input type="text" class="form-control" maxlength="25" name="provincestore" id="provincestore" value="{{ $u->provincestore }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Quận Huyện</label>
+                                <input type="text" class="form-control" maxlength="25" name="communestore" id="communestore" value="{{ $u->communestore }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Xã , Thị Trấn</label>
+                                <input type="text" class="form-control" maxlength="25" name="districtstore" id="districtstore" value="{{ $u->districtstore }}">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <input type="submit" class="btn btn-primary" value="Cập Nhật">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Form for locking user -->
+        <form action="{{ route('admin.lock-user') }}" method="post">
+            @csrf <!-- Include CSRF token -->
+            <input type="hidden" name="id" value="{{ $u->user_id }}">
+            <button type="submit" class="btn btn-danger btn-sm">Lock</button>
+        </form>
+    </td>
+</tr>
+@endforeach
 
-                                                </td>
-                                            </tr>
-                                            @endforeach
                                          
                                           
                                         </tbody>
@@ -179,5 +180,10 @@
                 </div> <!-- container-fluid -->
             </div>
 
+            <script>
+                                        $(document).ready(function() {
+    $('#basic-datatable').DataTable();
+});
 
+                                    </script>
 @endsection

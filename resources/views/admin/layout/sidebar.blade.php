@@ -27,11 +27,9 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="javascript: void(0);" class="has-arrow"><i class="feather-users"></i><span>Company</span></a>
+                            <a href="javascript: void(0);" class="has-arrow"><i class="feather-users"></i><span>Tiếp thị</span></a>
                             <ul class="sub-menu" aria-expanded="false">
-                                <li><a href="create-company">Create Company</a></li>
-                                <li><a href="company-management">Company management</a></li>
-                                <li><a href="contract-management">Contract Management</a></li>
+                                <li><a href="discount-code">Tạo mã giảm giá</a></li>
                     
                             </ul>
                         </li>

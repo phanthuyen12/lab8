@@ -20,6 +20,8 @@ function order_details(id){
                         <td>${item.phone}</td>
                         <td>${item.province}, ${item.district}, ${item.commune}</td>
                         <td>${item.product_name}</td>
+                        <td>${item.product_price}</td>
+                        <td>${item.shipping === "online_payment" ? "thanh toán online":"thanh toán khi nhận hàng"}</td>
                     </tr>
                 `);
             });

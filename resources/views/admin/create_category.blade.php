@@ -75,8 +75,10 @@
 
 <script src="{{ asset('admin/thaotac/category.js') }}"></script>
 <script>
+
     document.addEventListener('DOMContentLoaded',function(){
     select_data();
+    
 })
 
 function delete_item(id) {
@@ -168,6 +170,7 @@ function update_trangthai(id){
 
 function select_data(){
     $('#list_data').empty();
+
     
     $.ajax({
         url:'/admin/data_category',

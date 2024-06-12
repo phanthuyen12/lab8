@@ -1,5 +1,7 @@
 @extends('client/layout/layout')
 @section('content')
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <main>
         <!-- page-banner-area-start -->
         <div class="page-banner-area page-banner-height-2" data-background="{{asset('images/page-banner-4.jpg')}}">
@@ -87,7 +89,30 @@
         </div>
         </section>
         <!-- coupon-area-end -->
+       
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Địa điểm</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           </button>
+      </div>
+      <div class="modal-body">
+      <form id="radioForm">
+    <input type="radio" id="option1" name="option" value="1">
+    <label for="option1">Giao theo địa điểm tài khoản</label><br>
+    <input type="radio" id="option2" name="option" value="2">
+    <label for="option2">Giao địa điểm mới</label><br>
+</form>         </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id = "saveBtn">Lưu</button>
+      </div>
+    </div>
+  </div>
+</div>
         <!-- checkout-area-start -->
         <form action="{{ route('client.check_out') }}" method="post">
         @csrf <!-- Đây là token CSRF cho Laravel -->
@@ -101,24 +126,30 @@
                             <div class="checkbox-form">
                                 <h3>Thông tin khách hàng</h3>
                                 <div class="row">
-                                    
+                                <div class="col-md-12">
+                                <div class="checkout-form-list">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                                    Xin vui lòng chọn loại địa điểm
+                                    </button>
+                                    </div>
+                                    </div>
                                     <div class="col-md-12">
                                         <div class="checkout-form-list">
                                             <label>Họ Và Tên <span class="required">*</span></label>
-                                            <input type="text" placeholder="xin vui lòng điền họ tên" value="{{ isset($user->full_name) ? $user->full_name : '' }}" name = "full_name">
+                                            <input type="text" placeholder="xin vui lòng điền họ tên" name = "full_name" id ="full_name">
                                         </div>
                                     </div>
                                     <input type="hidden" value="{{ isset($user['user_id']) ? $user['user_id'] : null }}" name="user_id">
                                     <div class="col-md-12">
                                         <div class="checkout-form-list">
                                             <label>Email</label>
-                                            <input type="text" placeholder="Xin Vui Lòng Nhập" value="{{ isset($user->email) ? $user->email : '' }}" name="email">
+                                            <input type="text" placeholder="Xin Vui Lòng Nhập" name="email" id ="email">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="checkout-form-list">
                                             <label>Phone <span class="required">*</span></label>
-                                            <input type="text" placeholder="Xin Vui Lòng Nhập Số Điện Thoại" value="{{ isset($user->phone) ? $user->phone : '' }}" name = "phone">
+                                            <input type="text" placeholder="Xin Vui Lòng Nhập Số Điện Thoại"  name = "phone" id = "phone">
                                         </div>
                                     </div>
                                     
@@ -155,6 +186,15 @@
                                 <h3>Giỏ hàng</h3>
                                 <div class="your-order-table table-responsive">
                                     <table>
+                                    <tr>
+                                    <form id="ma-gam-gia">
+                                    <div class="coupon">
+                                        <input id="coupon_code" class="input-text" name="coupon_code" value="" placeholder="Coupon code" type="text">
+                                        <input type="hidden" name="subtotal_product_gg" id="subtotal_product_gg">
+                                        <button class="tp-btn-h1 " name="apply_coupon" type="button">Nhập mã giảm giá</button>
+                                    </div>
+                                </form>
+                                    </tr>
                                         <thead>
                                             <tr>
                                                 <th class="product-name">Sản Phẩm</th>
@@ -185,7 +225,17 @@
                                                                                 <tr class="order-total">
                                                 <th>Tổng tiền</th>
                                                 <td><strong><span id="totls_product" name = "totals_product"></span></strong>
+                                               <input type="hidden" name="totals_product" id = "totals_producttg">
+                                       
                                                 </td>
+                                                <tr>
+                                                <th>Giá sau áp dụng giảm giá</th>
+                                       <td>
+                                       <span id ="gg_subtotal_product" name = "totalamountsale">0</span>
+                                       <input type="hidden" name="totals_productkm" id = "totals_productkm">
+
+                                       </td>
+                                                </tr>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -193,43 +243,9 @@
 
                                 <div class="payment-method">
                                     <div class="accordion" id="checkoutAccordion">
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="checkoutOne">
-                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#bankOne" aria-expanded="true" aria-controls="bankOne">
-                                            Direct Bank Transfer
-                                            </button>
-                                        </h2>
-                                        <div id="bankOne" class="accordion-collapse collapse show" aria-labelledby="checkoutOne" data-bs-parent="#checkoutAccordion">
-                                            <div class="accordion-body">
-                                             <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="paymentTwo">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#payment" aria-expanded="false" aria-controls="payment">
-                                            Cheque Payment
-                                            </button>
-                                        </h2>
-                                        <div id="payment" class="accordion-collapse collapse" aria-labelledby="paymentTwo" data-bs-parent="#checkoutAccordion">
-                                            <div class="accordion-body">
-                                            <p>Please send your cheque to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="paypalThree">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#paypal" aria-expanded="false" aria-controls="paypal">
-                                            PayPal
-                                            </button>
-                                        </h2>
-                                        <div id="paypal" class="accordion-collapse collapse" aria-labelledby="paypalThree" data-bs-parent="#checkoutAccordion">
-                                            <div class="accordion-body">
-                                                <p>Pay via PayPal; you can pay with your credit card if you don’t have a
-                                                PayPal account.</p>
-                                            </div>
-                                        </div>
-                                    </div>
+                               
+                                 
+                                   
                                     </div>
                                     <div class="order-button-payment mt-20">
                                         <input type="submit" value="Thanh Toán">
@@ -298,7 +314,69 @@
     </main>
 
     <script>
-    $(document).ready(function() {
+   function get_user(token){
+    var formData = new FormData();
+    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    console.log(csrfToken);
+    formData.append('_token', csrfToken);
+    formData.append('token', token);
+
+    $.ajax({
+        type: "post",
+        url: "/get_usertk_token",
+        data: formData, // Sửa formData thay vì data
+        processData: false,  // Không xử lý dữ liệu gửi đi
+        contentType: false,  // Không thiết lập loại nội dung
+        success: function(response){
+            // Xử lý phản hồi JSON nếu cần
+            data =response.message
+            document.getElementById('full_name').value = data.full_name;
+           
+            console.log(data);
+            document.getElementById('email').value =data.email;
+            document.getElementById('phone').value =data.phone;
+            $('#province1').empty();
+            $('#district').empty();
+            $('#commune').empty();
+            $('#province1').append('<option value="' + data.provincestore + '">' + data.provincestore + '</option>');
+            $('#district').append('<option value="' + data.districtstore + '">' + data.districtstore + '</option>');
+            $('#commune').append('<option value="' + data.communestore + '">' + data.communestore + '</option>');
+
+          
+
+           
+        },
+        error: function(xhr, status, error){
+            // Xử lý lỗi nếu có
+            var errorMessage = xhr.responseJSON.message; // Lấy thông báo lỗi từ phản hồi JSON
+            alert(errorMessage); // Hiển thị thông báo lỗi
+        }
+    });
+}
+
+    function get_token_user(){
+        $.ajax({
+            type: "get",
+            url: "/get-user-token",
+            success: function(response){
+                    // Xử lý phản hồi JSON nếu cần
+                    token =response['token']
+
+                    get_user(token)
+                },
+                error: function(xhr, status, error){
+                    // Xử lý lỗi nếu có
+                    // xhr  đây là biến chwuas thông tin gửi về từ sever
+                    // nhận tham số từ sever ví dụ như 500 200
+                    // error nhận thông báo lỗi từ sever
+                    //responseJSON xác định cấu trúc json
+                    var errorMessage = xhr.responseJSON.message; // Lấy thông báo lỗi từ phản hồi JSON
+                    alert('xin vui lòng đăng nhập mới dùng được tính năng này'); // Hiển thị thông báo lỗi
+                }
+        });
+
+    }
+    function get_address(){
         $('select').niceSelect();
 
         $('#province1').css('display', 'block');
@@ -329,44 +407,139 @@
             });
         });
         $.ajax({
-            url: "https://toinh-api-tinh-thanh.onrender.com/province",
+            url: "http://127.0.0.1:8000/api/province",
             context: document.body
         }).done(function(data) {
-            console.log(data);
+            console.log(data.data);
             $('#province1').empty()
-            $.each(data,function(index,item){
-                $('#province1').append('<option value="' + item.idProvince + '">' + item.name + '</option>');
+            $.each(data.data,function(index,item){
+                $('#province1').append('<option value="' + item.id + '">' + item._name + '</option>');
             })
             // Thực hiện xử lý dữ liệu ở đây nếu cần
         });
         $('#province1').on('change',function(){
             var selectprovinceId = $(this).val();
             $.ajax({
-                url: "https://toinh-api-tinh-thanh.onrender.com/district?idProvince="+selectprovinceId,
+                url: "http://127.0.0.1:8000/api/district/"+selectprovinceId,
                 context:document.body
             }).done(function(data){
-                console.log(data)
+                console.log(data.data)
                 $('#district').empty()
-                $.each(data,function(index,item){
-                    $('#district').append('<option value="' + item.idDistrict + '">' + item.name + '</option>');
+                $.each(data.data,function(index,item){
+                    $('#district').append('<option value="' + item.id + '">' + item._name + '</option>');
                 })
             })
         });
         $('#district').on('change',function(){
             var selectdistrict = $(this).val();
             $.ajax({
-                url : "https://api-tinh-thanh-git-main-toiyours-projects.vercel.app/commune?idDistrict="+selectdistrict,
+                url : "http://127.0.0.1:8000/api/ward/"+selectdistrict,
 
             }).done(function(data){
                 console.log(data)
                 $('#commune').empty()
-                $.each(data,function(index,item){
-                    $('#commune').append('<option value="' + item.idCommune + '">' + item.name + '</option>');
+                $.each(data.data,function(index,item){
+                    $('#commune').append('<option value="' + item.id + '">' + item._name + '</option>');
 
                 })
             })
         })
+    }
+      $(document).ready(function() {
+        
+        document.getElementById('saveBtn').addEventListener('click', function() {
+    var selectedOption = document.querySelector('input[name="option"]:checked');
+    if (selectedOption) {
+        console.log(selectedOption.value);
+        if (selectedOption.value == 1){
+            get_token_user();
+
+        }else{
+            get_address();
+
+        }
+    } else {
+        console.log("Vui lòng chọn một tùy chọn.");
+    }
+});
+        get_address();
+        
     });
+</script>
+<script>
+$(document).ready(function() {
+    // Bắt sự kiện khi form được submit
+    $('button[name="apply_coupon"]').click(function(event) {
+        console.log('đã click');
+        // Ngăn chặn hành động mặc định của form
+        event.preventDefault();
+        
+        // Lấy mã giảm giá từ trường input
+        var couponCode = $('#coupon_code').val();
+        
+        // Lấy tổng số tiền từ trường input ẩn
+        var totalAmount = $('#subtotal_product_gg').val();
+        
+        // Gửi yêu cầu Ajax tới controller để kiểm tra mã giảm giá
+        $.ajax({
+            url: '/validate-coupon/' + couponCode,
+            type: 'GET',
+            success: function(response) {
+                console.log(response);
+                if (response.valid) {
+                    // Mã giảm giá hợp lệ, gửi yêu cầu áp dụng mã giảm giá
+                    applyCoupon(couponCode, totalAmount);
+                } else {
+                    // Mã giảm giá không hợp lệ, hiển thị thông báo lỗi
+                    alert(response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                // Xử lý lỗi nếu có
+                console.error("XHR Status: " + status);
+                console.error("Error: " + error);
+                console.error("XHR Response Text: " + xhr.responseText);
+            }
+        });
+    });
+});
+
+
+// Hàm để gửi yêu cầu áp dụng mã giảm giá
+function applyCoupon(couponCode, totalAmount) {
+    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    console.log(csrfToken);
+    // Gửi yêu cầu Ajax tới controller để áp dụng mã giảm giá
+    $.ajax({
+        url: '/apply-coupon/' + couponCode,
+        type: 'POST',
+        data: {
+            total_amount: totalAmount,
+            _token: csrfToken
+        },
+        success: function(response) {
+            if (response.success) {
+                document.getElementById('gg_subtotal_product').innerText = parseFloat(response.total_amount_after_discount).toLocaleString('vi-VN', { style: 'currency', currency: 'VND'});
+
+                // Áp dụng mã giảm giá thành công, cập nhật tổng số tiền sau khi giảm giá
+                
+                $('#totals_productkm').val(response.total_amount_after_discount);
+
+                $('#subtotal_product_gg').val(response.total_amount_after_discount);
+            } else {
+                // Mã giảm giá không thể áp dụng, hiển thị thông báo lỗi
+                alert(response.message);
+            }
+        },
+        error: function(xhr, status, error) {
+    // Log thông tin về lỗi vào console
+    console.error("XHR Status: " + status);
+    console.error("Error: " + error);
+}
+
+    });
+}
+
 </script>
 <script src="{{ asset('client/thaotac/checkout.js') }}"></script>
 

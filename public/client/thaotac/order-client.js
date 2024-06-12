@@ -1,12 +1,14 @@
 document.addEventListener("DOMContentLoaded", function() {
     // Lấy giá trị của trường user_id
-    var userId = document.getElementById("user_id").value;
 
     // In giá trị ra console
-    console.log("User ID:", userId);
-
+    var urlParams = new URLSearchParams(window.location.search);
+    var token = urlParams.get('token');
+    
+    // In giá trị token ra console để kiểm tra
+    console.log(token);
     $.ajax({
-        url: '/api/user/order_user/' + userId, // Sửa $userId thành userId
+        url: '/order-clients?token=' + token, // Thêm token vào URL
         type: 'GET',
         success: function(response) {
             console.log(response);
@@ -21,7 +23,6 @@ document.addEventListener("DOMContentLoaded", function() {
                             <td>${detail.product_name}</td>
                             <td>${detail.product_price}</td>
                             <td>${detail.product_quantity}</td>
-                            <td>${detail.product_price * detail.product_quantity}</td>
                         </tr>
                     `;
                 });
@@ -37,12 +38,12 @@ document.addEventListener("DOMContentLoaded", function() {
                     <tr>
                         <td>${order.order_date}</td>
                         <td>${order.shipping === 'online_payment' ? "thanh toán online":"thanh toán khi nhận"}</td>
-                                                <td>${order.status}</td>
+                                                <td>${order.status == 'đang phê duyệt' ?'chưa thanh toán' :'đã thanh toán'} </td>
 
                         <td>${order.email}</td>
                         <td>${order.phone}</td>
                         <td>${order.province}/${order.district}/${order.commune}</td>
-                          <td>${order.totalamount}</td>
+                                                <td>${order.totalamount}</td>
 
 <td>${order.totalamountsale === null ? 'ko có mã giảm giá' : order.totalamountsale}</td>
 
@@ -67,7 +68,6 @@ document.addEventListener("DOMContentLoaded", function() {
                                                         <th scope="col">Tên sản phẩm</th>
                                                         <th scope="col">Giá sản phẩm</th>
                                                         <th scope="col">Số lượng</th>
-                                                        <th scope="col">Tổng tiền</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>

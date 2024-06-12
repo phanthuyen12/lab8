@@ -1,14 +1,14 @@
 @extends('client/layout/layout')
 @section('content')
 <main>
-    
+
         <!-- page-banner-area-start -->
         <div class="page-banner-area page-banner-height-2" data-background="{{asset('images/page-banner-4.jpg')}}">
             <div class="container">
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="page-banner-content text-center">
-                            <h4 class="breadcrumb-title">Thông báo</h4>
+                            <h4 class="breadcrumb-title">Lịch sử mua hàng</h4>
                             <div class="breadcrumb-two">
                                 <nav>
                                    <nav class="breadcrumb-trail breadcrumbs">
@@ -17,7 +17,7 @@
                                             <a href="index.html"><span>Trang Chủ</span></a>
                                          </li>
                                          <li class="trail-item">
-                                            <span>Thông báo</span>
+                                            <span>Lịch sử mua hàng</span>
                                          </li>
                                       </ul>
                                    </nav> 
@@ -30,27 +30,47 @@
         </div>
         <!-- page-banner-area-end -->
 
-        <!-- account-area-start -->
-        <div class="account-area mt-70 mb-70">
-        <div class="container">
-    <div class="alert alert-success" role="alert">
-        <h4 class="alert-heading">Đặt hàng thành công!</h4>
-        <p>Cảm ơn bạn đã đặt hàng. Đơn hàng của bạn đã được xác nhận.</p>
-        <hr>
-        <p class="mb-0">Mã đơn hàng của bạn là: <strong>{{$order['madonhang']}}</strong></p>
-        <p class="mb-0">Thông tin đơn hàng:</p>
-        <ul>
-            <li>Email:{{$order['email']}}</li>
-            <li>Số Điện Thoại: {{$order['phone']}}</li>
-            <li>Ngày đặt hàng: {{$order['created_at']}}</li>
-            <!-- Thêm thông tin đơn hàng khác tùy theo yêu cầu của bạn -->
-        </ul>
-        <a href="/index" class="btn btn-primary">Quay lại trang chính</a>
-    </div>
-</div>
-        </div>
-        <!-- account-area-end -->
+        <!-- cart-area-start -->
+        <section class="cart-area pt-120 pb-120">
+            <div class="container">
+               <div class="row">
+                  <div class="col-12">
+                        <form action="#">
+                           <div class="table-content table-responsive">
+                              <table class="table">
+                                    <thead>
+                                       <tr>
+                                          <th class="product-thumbnail">Thời Gian</th>
+                                          <th class="cart-product-name">Trạng Thái</th>
+                                          <th class="cart-product-name">Tình Trạng</th>
 
+                                          <th class="product-price">email</th>
+                                          <th>phone</th>
+                                          <th>địa điểm</th>
+                                          <th>Tổng tiền</th>
+                                          <th>Tiền giảm giá</th>
+                                          <th>chi tiết giỏ hàng</th>
+                    
+                                          
+                                       </tr>
+                                    </thead>
+                                    <tbody id ="history_content">
+                         
+
+                                   
+                                     
+                                      
+                                    </tbody>
+                              </table>
+                           </div>
+                         
+                           
+                        </form>
+                  </div>
+               </div>
+            </div>
+         </section>
+        
         <!-- cta-area-start -->
         <section class="cta-area d-ldark-bg pt-55 pb-10">
             <div class="container">
@@ -102,4 +122,8 @@
         <!-- cta-area-end -->
 
     </main>
+    
+
+    <script src="{{ asset('client/thaotac/order-client.js') }}"></script>
+
 @endsection

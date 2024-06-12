@@ -11,6 +11,14 @@
     <link rel="shortcut icon" href="{{asset('admin/images/favicon.ico')}}">">
 
     <!-- App css -->
+ 
+    <link rel="stylesheet" href="{{asset('admin/plugins/datatables/dataTables.bootstrap4.css')}}">
+    <link rel="stylesheet" href="{{asset('admin/plugins/datatables/responsive.bootstrap4.cs')}}">
+    <link rel="stylesheet" href="{{asset('admin/plugins/datatables/buttons.bootstrap4.css')}}">
+    <link rel="stylesheet" href="{{asset('admin/plugins/datatables/select.bootstrap4.css')}}">
+
+    <!-- App css -->
+   
 
     <link rel="stylesheet" href="{{asset('admin/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('admin/css/icons.min.css')}}">

@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CrartController;
+use App\Http\Controllers\DiscountController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,7 +24,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/admin/login', [UserController::class,'get_login'])->middleware('loginadmin')->name('admin.get_login');
-Route::post('/login', [UserController::class,'login'])->name('admin.login_post');
+Route::post('/login', [UserController::class,'login_admin'])->name('admin.login_post');
 Route::post('/logout-admin', [UserController::class,'logout_admin'])->name('admin.logout');
 
 Route::prefix('admin')->middleware('checkrole')->group(function () {
@@ -54,6 +55,12 @@ Route::post('create-users',[UserController::class,'create_user'])->name('admin.c
 Route::get('user-management', [UserController::class,'user_management'])->name('admin.user-management');
 Route::post('update-user', [UserController::class,'update_user'])->name('admin.update-user');
 Route::post('lock-user', [UserController::class,'lock_user'])->name('admin.lock-user');
+Route::get('discount-code',[DiscountController::class,'create']);
+Route::post('/update-status-code', [DiscountController::class, 'updatestatuscode'])->name('update-status');
+
+Route::post('discount-code',[DiscountController::class,'create_discount'])->name('admin.create_discount');
+
+
 
 
 
@@ -68,6 +75,16 @@ Route::prefix('/')->group(function () {
     Route::post('/user-logout',[UserController::class,'logout_user'])->name('client.logout');
     Route::post('/passwordblack',[UserController::class,'password_black'])->name('client.password_black');
     Route::get('/test-mail',[UserController::class,'test_mail']);
+    Route::get('order-clients',[CrartController::class,'get_order_clients']);
+    Route::get('order-client',[CrartController::class,'get_order_client']);
+    
+
+    Route::get('/get-user-token', function() {
+        return response()->json([
+            'token' => session('user')['token']
+        ]);
+    });
+    Route::post('/get_usertk_token',[UserController::class,'get_user_token']);
 
     // post
     Route::post('/registers',[UserController::class,'create_user'])->name('client.register');
@@ -93,6 +110,7 @@ Route::prefix('/')->group(function () {
     Route::get('search-category',[ClientController::class,'search_category'])->name('admin.search_category');
     route::get('checkout-success',[CrartController::class,'get_user_checkout_success']);
 
-
+    Route::get('validate-coupon/{code}', [DiscountController::class,'validateCoupon']);
+    Route::post('apply-coupon/{code}', [DiscountController::class,'applyCoupon']);
 
 });   

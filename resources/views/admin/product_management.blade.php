@@ -34,7 +34,7 @@
 @endif
                             </p>
 
-                            <table id="basic-datatable" class="table dt-responsive nowrap">
+                            <table id="basic-datatable" class="table  nowrap">
                                 <thead>
                                     <tr>
                                         <th>Tên Sản Phẩm</th>
@@ -121,6 +121,10 @@
         </div>
     </div>
     <script>
+                                        $(document).ready(function() {
+    $('#basic-datatable').DataTable();
+});
+
         function delete_product(id){
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
 

@@ -35,6 +35,7 @@ class ClientController extends Controller
         $categories = DB::table('categories')
             ->leftJoin('products', 'categories.category_id', '=', 'products.category_id')
             ->select('categories.category_id', 'categories.category_name', 'categories.created_at', DB::raw('COUNT(products.product_id) as product_count'))
+            ->where('categories.trangthai', 0) // Thêm điều kiện lấy danh mục có trạng thái = 1
             ->groupBy('categories.category_id', 'categories.category_name', 'categories.created_at')
             ->get();
         
@@ -46,17 +47,23 @@ class ClientController extends Controller
                              ->header('Content-Type', 'application/json; charset=utf-8');
         }
     }
+    
     public function get_all_product(){
-        $product = DB::table('products')->get();
-        if ($product){
-            return response()->json($product)->header('Content-Type', 'application/json; charset=utf-8');
-
-        }else{
-            return response()->json(['message'=>'Ko tìm thấy'])->header('Content-Type', 'application/json; charset=utf-8');
-
+        $products = DB::table('products')
+            ->leftJoin('categories', 'products.category_id', '=', 'categories.category_id')
+            ->where('categories.trangthai', '!=', 1) // Lấy những sản phẩm có danh mục không có trạng thái bằng 1
+            ->select('products.*')
+            ->get();
+        
+        if ($products->isEmpty()) {
+            return response()->json(['message' => 'Không tìm thấy sản phẩm'], 404)
+                             ->header('Content-Type', 'application/json; charset=utf-8');
+        } else {
+            return response()->json($products)
+                             ->header('Content-Type', 'application/json; charset=utf-8');
         }
-
     }
+    
     public function search_category_products($id){
         // echo 'xin chào'.$id;
         $product =DB::table('products')->where('category_id',$id)->get();
